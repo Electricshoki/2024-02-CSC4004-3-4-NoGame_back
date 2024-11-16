@@ -18,7 +18,7 @@ class PolicyIdeaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PolicyIdea
-        fields = ['id', 'title', 'content', 'author', 'created_at', 'images', 'uploaded_images', 'average_score']
+        fields = ['id', 'title', 'content', 'created_at', 'images', 'uploaded_images', 'average_score']
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop('uploaded_images', [])
@@ -32,16 +32,16 @@ class PolicyIdeaSerializer(serializers.ModelSerializer):
 class EvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evaluation
-        fields = ['policy', 'user', 'score']
+        fields = ['policy', 'score']  # 'user' 필드 제거
     
 # 좋아요 기능을 위한 시리얼라이저
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = ['policy', 'user']
+        fields = ['policy']  # 'user' 필드 제거
 
 # 스크랩 기능을 위한 시리얼라이저
 class ScrapSerializer(serializers.ModelSerializer):
     class Meta:
         model = Scrap
-        fields = ['policy', 'user']
+        fields = ['policy']  # 'user' 필드 제거
