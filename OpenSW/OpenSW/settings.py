@@ -1,30 +1,17 @@
 from pathlib import Path
 import os
 
-# BASE_DIR을 상단에 정의. 디렉토리 알려주기.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 미디어 파일 경로 설정.
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-=za$5@xyys(-8z+s4-q-)yg@+7++up#pqmq1xzebqi3os+*r=p'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
-
-# Application definition
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 INSTALLED_APPS = [
@@ -34,10 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+  
+    'rest_framework', # rest api 사용
     'rest_framework.authtoken',
-    'PolicyApp',
+  
     'PolicyIdea',
+    'PolicyApp',
+    'PolicyUser',
 ]
 
 #-----------------------실제 인증 할 때------------------------------
@@ -70,12 +60,29 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# rest api 관련 설정
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+KAKAO_CONFIG = {
+    "KAKAO_REST_API_KEY": "48fbbd944370c44ffd825a0a7ca01074",      # kakao REST API key
+    "KAKAO_REDIRECT_URI": "http://127.0.0.1:8000/accounts/kakao/login/callback/", # kakao redirect url
+    "KAKAO_CLIENT_SECRET": "tmfu0j7GwflUaPAzHcRQ6m9DZ69Ib41e"     # kakao client secret key
+}
+
 ROOT_URLCONF = 'OpenSW.urls'
+
+AUTH_USER_MODEL = 'PolicyUser.User'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,10 +97,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'OpenSW.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -102,43 +105,9 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-LANGUAGE_CODE = 'ko-kr'
-
-TIME_ZONE = 'Asia/Seoul'
-
-USE_I18N = True
-
-USE_TZ = False
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
+# Static 파일 저장소
 STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
