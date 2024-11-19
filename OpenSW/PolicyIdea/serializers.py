@@ -6,42 +6,44 @@ class PolicyImageSerializer(serializers.ModelSerializer):
         model = PolicyImage
         fields = ['image']
 
-# serializers.py
 class PolicyIdeaSerializer(serializers.ModelSerializer):
-    images = PolicyImageSerializer(many=True, read_only=True)  # 다중 이미지
+    images = PolicyImageSerializer(many=True, read_only=True)
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(), required=False, write_only=True
-    )  # 필드를 선택적으로 만듦
+    )
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    policy = serializers.PrimaryKeyRelatedField(queryset=PolicyIdea.objects.all(), required=False)
 
-    # 평균 평점 추가
     average_score = serializers.FloatField(read_only=True)
 
     class Meta:
         model = PolicyIdea
-        fields = ['id', 'title', 'content', 'created_at', 'images', 'uploaded_images', 'average_score']
+        fields = ['id', 'title', 'content', 'created_at', 'images', 'uploaded_images', 'average_score', 'user', 'policy']
 
     def create(self, validated_data):
         uploaded_images = validated_data.pop('uploaded_images', [])
         policy_idea = PolicyIdea.objects.create(**validated_data)
-        # 이미지가 제공되었으면 저장
         for image in uploaded_images:
             PolicyImage.objects.create(policy=policy_idea, image=image)
         return policy_idea
 
-# 평가 기능을 위한 시리얼라이저
 class EvaluationSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Evaluation
-        fields = ['policy', 'score']  # 'user' 필드 제거
-    
-# 좋아요 기능을 위한 시리얼라이저
+        fields = ['policy', 'score', 'user']
+
 class LikeSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Like
-        fields = ['policy']  # 'user' 필드 제거
+        fields = ['policy', 'user']
 
-# 스크랩 기능을 위한 시리얼라이저
 class ScrapSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Scrap
-        fields = ['policy']  # 'user' 필드 제거
+        fields = ['policy', 'user']
