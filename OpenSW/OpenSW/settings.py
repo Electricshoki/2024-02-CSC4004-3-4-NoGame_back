@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'PolicyUser',
 ]
 
+<<<<<<< HEAD
 #-----------------------실제 인증 할 때------------------------------
 #REST_FRAMEWORK = {
 #    'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -50,6 +51,18 @@ REST_FRAMEWORK = {
 }
 
 
+=======
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+>>>>>>> 23c6b36 (feat: Added user, policy model to policyidea model)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

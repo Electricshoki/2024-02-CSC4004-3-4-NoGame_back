@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+from django.contrib.auth import get_user_model
+from rest_framework.generics import ListAPIView
+#위 내용은 수정한 내용.
+>>>>>>> 23c6b36 (feat: Added user, policy model to policyidea model)
 from django.shortcuts import redirect
 from django.conf import settings
 from rest_framework.views import APIView
@@ -6,6 +12,11 @@ import requests
 from .models import User
 from .serializers import UserSerializer
 
+<<<<<<< HEAD
+=======
+User = get_user_model()
+
+>>>>>>> 23c6b36 (feat: Added user, policy model to policyidea model)
 class KakaoLoginView(APIView):
     def get(self, request):
         # 카카오 로그인 URL 생성
@@ -52,4 +63,13 @@ class KakaoCallbackView(APIView):
         
         # 사용자 정보를 직렬화하여 반환
         serializer = UserSerializer(user)
+<<<<<<< HEAD
         return Response(serializer.data)
+=======
+        return Response(serializer.data)
+    
+
+class UserListView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+>>>>>>> 23c6b36 (feat: Added user, policy model to policyidea model)
