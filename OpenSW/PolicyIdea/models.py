@@ -47,7 +47,7 @@ class Like(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="likes"
+        related_name="idea_likes"
     )
 
 class Scrap(models.Model):
@@ -55,5 +55,5 @@ class Scrap(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="scraps"
+        related_name="idea_scraps"
     )
