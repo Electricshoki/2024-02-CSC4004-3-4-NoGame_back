@@ -9,4 +9,5 @@ urlpatterns = [
     path('accounts/kakao/login/callback/', KakaoCallbackView.as_view(), name='kakao-callback'),
     path('users/', UserListView.as_view(), name='user-list'),
     path('policy/', include('PolicyIdea.urls')),
+    path('policyapp/', include('PolicyApp.urls')), 
 ]

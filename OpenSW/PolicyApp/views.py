@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
-from .models import Policy
-from .serializers import PolicySerializer
+from rest_framework.parsers import MultiPartParser, FormParser
+from .models import Policy, PolicyImage
+from .serializers import PolicySerializer, PolicyImageSerializer
 
 from django.shortcuts import get_object_or_404
 
@@ -18,7 +18,14 @@ def policy_list_create(request):
         return Response(data=serializer.data)
     
     if request.method == 'POST':
-        serializer = PolicySerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        policy_serializer = PolicySerializer(data=request.data)
+        if policy_serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(data=serializer.data)
+            policy = policy_serializer.save()  # Policy 객체 저장
+            
+            # 다중 이미지 처리
+            images = request.FILES.getlist('images')
+            for image in images:
+                PolicyImage.objects.create(policy=policy, image=image)
+            
+            return Response(data=PolicySerializer(policy).data)
