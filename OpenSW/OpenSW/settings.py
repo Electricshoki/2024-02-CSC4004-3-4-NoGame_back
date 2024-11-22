@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-=za$5@xyys(-8z+s4-q-)yg@+7++up#pqmq1xzebqi3os+*r=p
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*'] #모든 ip 수용하여 로컬 외부 디바이스 접속 가능 ('*')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
