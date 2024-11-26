@@ -1,3 +1,4 @@
+from django.db import models 
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -71,3 +72,32 @@ def list_ratings(request, policy_id):
     ratings = Rating.objects.filter(policy_id=policy_id)
     serializer = RatingSerializer(ratings, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def policy_sentiment_analysis(request, policy_id):
+    """
+    정책에 대한 리뷰의 평균 감정 점수를 반환하는 API.
+    """
+    try:
+        policy = Policy.objects.get(id=policy_id)
+        ratings = Rating.objects.filter(policy=policy)
+
+        if not ratings.exists():
+            return Response({"message": "No reviews available for this policy."})
+
+        # 평균 감정 점수 계산
+        avg_score = ratings.aggregate(models.Avg('sentiment_score'))['sentiment_score__avg']
+        positive_count = ratings.filter(sentiment_label="POSITIVE").count()
+        negative_count = ratings.filter(sentiment_label="NEGATIVE").count()
+
+        return Response({
+            "policy_id": policy_id,
+            "title": policy.title,
+            "average_sentiment_score": avg_score,
+            "positive_reviews": positive_count,
+            "negative_reviews": negative_count,
+            "total_reviews": ratings.count(),
+        })
+    except Policy.DoesNotExist:
+        return Response({"error": "Policy not found."}, status=404)
