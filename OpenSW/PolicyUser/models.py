@@ -6,7 +6,6 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=100, blank=True) # 카카오톡 프로필 이름
     profile_image = models.URLField(blank=True) # 카카오톡 프로필 사진
 
-    age = models.PositiveIntegerField(null=True, blank=True, default=0)  # 나이
-    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True, default='')  # 성별
-    email = models.EmailField(blank=True, default="")  # 이메일
-    residence = models.CharField(max_length=255, blank=True, default="")  # 거주지
+    age = models.PositiveIntegerField()  # 나이
+    gender = models.CharField(max_length=200)  # 성별
+    residence = models.CharField(max_length=200)  # 거주지
