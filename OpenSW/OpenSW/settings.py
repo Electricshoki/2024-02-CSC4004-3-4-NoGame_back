@@ -46,6 +46,7 @@ MIDDLEWARE = [
 KAKAO_CONFIG = {
     "KAKAO_REST_API_KEY": "48fbbd944370c44ffd825a0a7ca01074",
     "KAKAO_REDIRECT_URI": "http://127.0.0.1:8000/accounts/kakao/login/callback/",
+    "LOGOUT_REDIRECT_URI": "http://127.0.0.1:8000/",
 }
 
 ROOT_URLCONF = 'OpenSW.urls'
