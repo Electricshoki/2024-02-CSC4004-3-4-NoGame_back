@@ -1,9 +1,10 @@
 from django.shortcuts import redirect
 from django.conf import settings
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
+from .models import User
 import requests
 
 User = get_user_model()
@@ -20,14 +21,12 @@ class KakaoCallbackView(APIView):
         code = request.GET.get("code")
         client_id = settings.KAKAO_CONFIG['KAKAO_REST_API_KEY']
         redirect_uri = settings.KAKAO_CONFIG['KAKAO_REDIRECT_URI']
-        client_secret = settings.KAKAO_CONFIG['KAKAO_CLIENT_SECRET']
 
         token_request = requests.post(
             "https://kauth.kakao.com/oauth/token",
             data={
                 "grant_type": "authorization_code",
                 "client_id": client_id,
-                "client_secret": client_secret,
                 "redirect_uri": redirect_uri,
                 "code": code,
             },
@@ -47,9 +46,15 @@ class KakaoCallbackView(APIView):
 
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
+    def post(self, request):
+        user = request.user
+        data = request.data
 
-class UserListView(APIView):
-    def get(self, request):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+        user.nickname = data.get('nickname', user.nickname)
+        user.age = data.get('age', user.age)
+        user.gender = data.get('gender', user.gender)
+        user.residence = data.get('residence', user.residence)
+
+        user.save() 
+        return redirect('kakao-callback')

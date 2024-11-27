@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-=za$5@xyys(-8z+s4-q-)yg@+7++up#pqmq1xzebqi3os+*r=p
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*'] #모든 ip 수용하여 로컬 외부 디바이스 접속 가능 ('*')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,13 +25,11 @@ INSTALLED_APPS = [
     'PolicyUser',
 ]
 
+# 권한 관련 오류가 있어 우선은 권한 없어도 접속 허용 (카카오 로그인)
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
 }
 
@@ -48,7 +46,6 @@ MIDDLEWARE = [
 KAKAO_CONFIG = {
     "KAKAO_REST_API_KEY": "48fbbd944370c44ffd825a0a7ca01074",
     "KAKAO_REDIRECT_URI": "http://127.0.0.1:8000/accounts/kakao/login/callback/",
-    "KAKAO_CLIENT_SECRET": "tmfu0j7GwflUaPAzHcRQ6m9DZ69Ib41e"
 }
 
 ROOT_URLCONF = 'OpenSW.urls'
