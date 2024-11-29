@@ -40,6 +40,8 @@ class Rating(models.Model):
     score = models.DecimalField(max_digits=3, decimal_places=1)  # 10점 만점, 소수점 1자리
     review = models.TextField(blank=True)  # 한줄평
     created_at = models.DateTimeField(auto_now_add=True)
-
+    sentiment_score = models.FloatField(null=True, blank=True)  # 감정 점수 (0~1)
+    sentiment_label = models.CharField(max_length=10, null=True, blank=True)  # 긍정/부정 레이블
+    
     class Meta:
         unique_together = ('user', 'policy')  # 사용자당 하나의 별점만 허용
