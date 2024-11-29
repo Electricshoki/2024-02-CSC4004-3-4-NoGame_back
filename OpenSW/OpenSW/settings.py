@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'PolicyIdea',
     'PolicyApp',
     'PolicyUser',
+    'corsheaders',
 ]
 
 # 권한 관련 오류가 있어 우선은 권한 없어도 접속 허용 (카카오 로그인)
@@ -34,6 +35,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,6 +44,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React 프론트엔드 URL
+]
+
+# 모든 Origin을 허용하려면 아래 옵션 사용 (보안상 주의)
+# CORS_ALLOW_ALL_ORIGINS = True
+
 
 KAKAO_CONFIG = {
     "KAKAO_REST_API_KEY": "48fbbd944370c44ffd825a0a7ca01074",
