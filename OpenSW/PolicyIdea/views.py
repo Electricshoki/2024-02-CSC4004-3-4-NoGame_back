@@ -5,13 +5,10 @@ from rest_framework.decorators import action
 from .models import PolicyIdea, Evaluation, Like, Scrap, Tag
 from .serializers import ( PolicyIdeaSerializer, EvaluationSerializer, LikeSerializer, ScrapSerializer, TagSerializer)
 
-<<<<<<< HEAD
 
 from django.db.models import Avg
 from django.http import JsonResponse
 
-=======
->>>>>>> upstream/main
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -104,7 +101,6 @@ class ScrapViewSet(viewsets.ModelViewSet):
     def delete_scrap(self, request, policy_id=None):
         scrap = get_object_or_404(Scrap, policy_id=policy_id, user=request.user)
         scrap.delete()
-<<<<<<< HEAD
         return Response({'detail': '스크랩이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
 
 
@@ -143,6 +139,3 @@ def policyidea_detail(request, id):
         }, json_dumps_params={'ensure_ascii': False})
     except PolicyIdea.DoesNotExist:
         return JsonResponse({'error': 'PolicyIdea not found'}, status=404)
-=======
-        return Response({'detail': '스크랩이 삭제되었습니다.'}, status=status.HTTP_204_NO_CONTENT)
->>>>>>> upstream/main

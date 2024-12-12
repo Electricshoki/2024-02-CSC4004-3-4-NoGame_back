@@ -1,17 +1,10 @@
 from django.urls import path, include
-<<<<<<< HEAD
 
-=======
->>>>>>> upstream/main
 from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework.routers import DefaultRouter
-<<<<<<< HEAD
 from .views import PolicyIdeaViewSet, EvaluationViewSet, LikeViewSet, ScrapViewSet, TagViewSet, policyidea_detail
-=======
-from .views import PolicyIdeaViewSet, EvaluationViewSet, LikeViewSet, ScrapViewSet, TagViewSet
->>>>>>> upstream/main
 
 # 라우터 생성 및 뷰셋 등록
 router = DefaultRouter()
@@ -24,10 +17,7 @@ router.register(r'tags', TagViewSet, basename='tag')  # 태그 등록
 # URL 패턴 설정
 urlpatterns = [
     path('', include(router.urls)),
-<<<<<<< HEAD
     path('<int:id>/', policyidea_detail, name='policyidea_detail')
-=======
->>>>>>> upstream/main
 ]
 
 # MEDIA_URL을 처리하기 위한 설정 추가

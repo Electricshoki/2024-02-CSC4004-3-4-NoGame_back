@@ -8,12 +8,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import Policy, PolicyImage, Like, Scrap, Rating
 from .serializers import PolicySerializer, PolicyImageSerializer, LikeSerializer, ScrapSerializer, RatingSerializer
 
-<<<<<<< HEAD
 from django.db.models import Avg
 from django.http import JsonResponse
 
-=======
->>>>>>> upstream/main
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
@@ -106,7 +103,6 @@ def policy_sentiment_analysis(request, policy_id):
             "total_reviews": ratings.count(),
         })
     except Policy.DoesNotExist:
-<<<<<<< HEAD
         return Response({"error": "Policy not found."}, status=404)
 
 def policy_detail(request, id):
@@ -147,6 +143,3 @@ def policy_detail(request, id):
         }, json_dumps_params={'ensure_ascii': False})
     except Policy.DoesNotExist:
         return JsonResponse({'error': 'Policy not found'}, status=404)
-=======
-        return Response({"error": "Policy not found."}, status=404)
->>>>>>> upstream/main

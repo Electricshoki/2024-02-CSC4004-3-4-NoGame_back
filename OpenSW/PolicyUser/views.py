@@ -8,12 +8,9 @@ from .models import User
 import requests
 from rest_framework import status
 
-<<<<<<< HEAD
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
-=======
->>>>>>> upstream/main
 User = get_user_model()
 
 class KakaoLoginView(APIView):
@@ -150,7 +147,6 @@ class UserProfileView(APIView):
         request.session['gender'] = gender
         request.session['residence'] = residence
 
-<<<<<<< HEAD
         return self.get(request)
 
 @api_view(['GET'])
@@ -190,6 +186,3 @@ def all_users(request):
         for user in users
     ]
     return JsonResponse(user_list, safe=False, json_dumps_params={'ensure_ascii': False}, status=200)    
-=======
-        return self.get(request)
->>>>>>> upstream/main
